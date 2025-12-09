@@ -1,0 +1,310 @@
+================================================================================
+                    MEMORY DIAGRAMS AND VISUALIZATIONS
+                    Singly Linked List Operations
+================================================================================
+
+This file contains ASCII diagrams showing the internal working of various
+linked list operations with memory addresses and pointer manipulation.
+
+================================================================================
+1. INITIAL STATE - EMPTY LIST
+================================================================================
+
+head → NULL
+
+Memory State:
+┌──────────┐
+│ head     │ = NULL
+└──────────┘
+
+
+================================================================================
+2. INSERT AT BEGINNING - First Node (Value: 10)
+================================================================================
+
+Step 1: Create new node
+┌──────────────────────────┐
+│ Address: 0x1000          │
+│ Data: 10                 │
+│ Next: NULL               │
+└──────────────────────────┘
+
+Step 2: Update head
+head → [0x1000 | 10 | NULL]
+
+Memory State:
+┌──────────┐      ┌──────────────────────────┐
+│ head     │ ───→ │ 0x1000 | 10 | NULL      │
+└──────────┘      └──────────────────────────┘
+
+
+================================================================================
+3. INSERT AT BEGINNING - Second Node (Value: 20)
+================================================================================
+
+Before:
+head → [0x1000 | 10 | NULL]
+
+Step 1: Create new node at 0x1500
+┌──────────────────────────┐
+│ Address: 0x1500          │
+│ Data: 20                 │
+│ Next: NULL               │
+└──────────────────────────┘
+
+Step 2: newNode→next = head
+┌──────────────────────────┐      ┌──────────────────────────┐
+│ 0x1500 | 20 | 0x1000    │ ───→ │ 0x1000 | 10 | NULL      │
+└──────────────────────────┘      └──────────────────────────┘
+
+Step 3: head = newNode
+After:
+head → [0x1500 | 20 | 0x1000] → [0x1000 | 10 | NULL]
+
+Memory State:
+┌──────────┐      ┌──────────────────────────┐      ┌──────────────────────────┐
+│ head     │ ───→ │ 0x1500 | 20 | 0x1000   │ ───→ │ 0x1000 | 10 | NULL      │
+└──────────┘      └──────────────────────────┘      └──────────────────────────┘
+
+
+================================================================================
+4. INSERT AT END (Value: 30)
+================================================================================
+
+Before:
+head → [0x1500 | 20 | 0x1000] → [0x1000 | 10 | NULL]
+
+Step 1: Create new node at 0x2000
+┌──────────────────────────┐
+│ Address: 0x2000          │
+│ Data: 30                 │
+│ Next: NULL               │
+└──────────────────────────┘
+
+Step 2: Traverse to last node
+temp = head
+while (temp→next != NULL)
+    temp = temp→next
+
+Position 1: 0x1500 → next exists
+Position 2: 0x1000 → next is NULL (LAST NODE)
+
+Step 3: temp→next = newNode
+After:
+head → [0x1500|20|0x1000] → [0x1000|10|0x2000] → [0x2000|30|NULL]
+
+Memory State:
+┌──────────┐      ┌────────────────────┐      ┌────────────────────┐      ┌────────────────────┐
+│ head     │ ───→ │ 0x1500|20|0x1000  │ ───→ │ 0x1000|10|0x2000  │ ───→ │ 0x2000|30|NULL    │
+└──────────┘      └────────────────────┘      └────────────────────┘      └────────────────────┘
+
+
+================================================================================
+5. INSERT AT POSITION 2 (Value: 25)
+================================================================================
+
+Before:
+head → [0x1500|20|0x1000] → [0x1000|10|0x2000] → [0x2000|30|NULL]
+
+Step 1: Create new node at 0x1800
+┌──────────────────────────┐
+│ Address: 0x1800          │
+│ Data: 25                 │
+│ Next: NULL               │
+└──────────────────────────┘
+
+Step 2: Traverse to position 1 (position - 1)
+temp = head (0x1500)
+
+Step 3: Update pointers
+newNode→next = temp→next (0x1000)
+temp→next = newNode (0x1800)
+
+After:
+head → [0x1500|20|0x1800] → [0x1800|25|0x1000] → [0x1000|10|0x2000] → [0x2000|30|NULL]
+
+Memory State:
+         ┌────────────────────┐      ┌────────────────────┐      ┌────────────────────┐      ┌────────────────────┐
+head ───→│ 0x1500|20|0x1800  │ ───→ │ 0x1800|25|0x1000  │ ───→ │ 0x1000|10|0x2000  │ ───→ │ 0x2000|30|NULL    │
+         └────────────────────┘      └────────────────────┘      └────────────────────┘      └────────────────────┘
+
+
+================================================================================
+6. DELETE FIRST NODE
+================================================================================
+
+Before:
+head → [0x1500|20|0x1800] → [0x1800|25|0x1000] → [0x1000|10|0x2000] → [0x2000|30|NULL]
+
+Step 1: temp = head
+temp → [0x1500|20|0x1800]
+
+Step 2: head = head→next
+head → [0x1800|25|0x1000]
+
+Step 3: free(temp)
+Delete node at 0x1500
+
+After:
+head → [0x1800|25|0x1000] → [0x1000|10|0x2000] → [0x2000|30|NULL]
+
+Memory State:
+         ┌────────────────────┐      ┌────────────────────┐      ┌────────────────────┐
+head ───→│ 0x1800|25|0x1000  │ ───→ │ 0x1000|10|0x2000  │ ───→ │ 0x2000|30|NULL    │
+         └────────────────────┘      └────────────────────┘      └────────────────────┘
+
+
+================================================================================
+7. DELETE LAST NODE
+================================================================================
+
+Before:
+head → [0x1800|25|0x1000] → [0x1000|10|0x2000] → [0x2000|30|NULL]
+
+Step 1: Traverse to second-to-last node
+Position 1: 0x1800
+Position 2: 0x1000 (second-to-last)
+
+Step 2: temp→next→next == NULL (0x2000 is last)
+
+Step 3: Store last node reference
+lastNode = temp→next (0x2000)
+
+Step 4: temp→next = NULL
+
+Step 5: free(lastNode)
+Delete node at 0x2000
+
+After:
+head → [0x1800|25|0x1000] → [0x1000|10|NULL]
+
+Memory State:
+         ┌────────────────────┐      ┌────────────────────┐
+head ───→│ 0x1800|25|0x1000  │ ───→ │ 0x1000|10|NULL    │
+         └────────────────────┘      └────────────────────┘
+
+
+================================================================================
+8. DELETE AT POSITION 1 (Middle Node)
+================================================================================
+
+Before:
+head → [0x1800|25|0x1000] → [0x1000|10|NULL]
+
+Step 1: Traverse to position 0 (position - 1)
+Since position = 1, this is delete first operation
+
+temp = head (0x1800)
+
+Step 2: head = head→next (0x1000)
+
+Step 3: free(temp)
+Delete node at 0x1800
+
+After:
+head → [0x1000|10|NULL]
+
+Memory State:
+         ┌────────────────────┐
+head ───→│ 0x1000|10|NULL    │
+         └────────────────────┘
+
+
+================================================================================
+9. SEARCH OPERATION (Value: 10)
+================================================================================
+
+Current List:
+head → [0x1000|10|NULL]
+
+Step 1: temp = head
+Step 2: while (temp != NULL)
+    Position 1 (0x1000): Comparing 10... MATCH!
+    
+Result: Found at position 1
+
+
+================================================================================
+10. TRAVERSAL OPERATION
+================================================================================
+
+Current List:
+head → [0x1000|10|NULL]
+
+Output:
+Position 1: [0x1000 | 10 | next → NULL] → NULL
+
+Traversal completed. Total nodes: 1
+
+
+================================================================================
+11. COMPLEX EXAMPLE - Full List
+================================================================================
+
+List with 5 nodes:
+
+head → [0x1000|10|0x1500] → [0x1500|20|0x2000] → [0x2000|30|0x2500] → [0x2500|40|0x3000] → [0x3000|50|NULL]
+
+Memory Layout:
+┌──────────┐
+│ head     │ = 0x1000
+└──────────┘
+     │
+     ↓
+┌────────────────────┐
+│ 0x1000 | 10 | 0x1500 │ ← Node 1
+└────────────────────┘
+     │
+     ↓
+┌────────────────────┐
+│ 0x1500 | 20 | 0x2000 │ ← Node 2
+└────────────────────┘
+     │
+     ↓
+┌────────────────────┐
+│ 0x2000 | 30 | 0x2500 │ ← Node 3
+└────────────────────┘
+     │
+     ↓
+┌────────────────────┐
+│ 0x2500 | 40 | 0x3000 │ ← Node 4
+└────────────────────┘
+     │
+     ↓
+┌────────────────────┐
+│ 0x3000 | 50 | NULL   │ ← Node 5 (Last)
+└────────────────────┘
+
+
+================================================================================
+12. KEY CONCEPTS ILLUSTRATED
+================================================================================
+
+1. DYNAMIC MEMORY ALLOCATION
+   - Each node is allocated in heap memory
+   - Nodes can be at non-contiguous memory locations
+   - Memory addresses are in hexadecimal format
+
+2. POINTER LINKING
+   - Each node's 'next' pointer stores the address of the next node
+   - Last node's 'next' is NULL
+   - head pointer always points to the first node
+
+3. INSERTION LOGIC
+   - At beginning: Update new node's next, then update head
+   - At end: Traverse to last, update its next
+   - At position: Traverse to position-1, update pointers
+
+4. DELETION LOGIC
+   - Save reference to node being deleted
+   - Update pointers to bypass the node
+   - Free the memory to prevent memory leaks
+
+5. TRAVERSAL
+   - Start from head
+   - Follow next pointers until NULL
+   - Process each node along the way
+
+================================================================================
+END OF MEMORY DIAGRAMS
+================================================================================

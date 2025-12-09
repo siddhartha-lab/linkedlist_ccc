@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Singly Linked List Simulator</title>
+    <meta name="description" content="Visual simulation demonstrating the internal working of a Singly Linked List with memory addresses and pointer operations">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <span class="icon">🔗</span>
+                    Singly Linked List Simulator
+                </h1>
+                <p class="subtitle">Interactive visualization of internal memory operations and pointer manipulation</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="panel-header">
+                    <h2>Operations</h2>
+                </div>
+                
+                <div class="operation-group">
+                    <h3>Insert Operations</h3>
+                    <div class="input-group">
+                        <input type="number" id="insertValue" placeholder="Enter value" class="input-field">
+                        <button onclick="insertAtBeginning()" class="btn btn-primary">Insert at Beginning</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="insertEndValue" placeholder="Enter value" class="input-field">
+                        <button onclick="insertAtEnd()" class="btn btn-primary">Insert at End</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="insertPosValue" placeholder="Value" class="input-field input-small">
+                        <input type="number" id="insertPosition" placeholder="Position" class="input-field input-small">
+                        <button onclick="insertAtPosition()" class="btn btn-primary">Insert at Position</button>
+                    </div>
+                </div>
+
+                <div class="operation-group">
+                    <h3>Delete Operations</h3>
+                    <button onclick="deleteFirst()" class="btn btn-danger">Delete First Node</button>
+                    <button onclick="deleteLast()" class="btn btn-danger">Delete Last Node</button>
+                    <div class="input-group">
+                        <input type="number" id="deletePosition" placeholder="Position" class="input-field">
+                        <button onclick="deleteAtPosition()" class="btn btn-danger">Delete at Position</button>
+                    </div>
+                </div>
+
+                <div class="operation-group">
+                    <h3>Other Operations</h3>
+                    <div class="input-group">
+                        <input type="number" id="searchValue" placeholder="Search value" class="input-field">
+                        <button onclick="searchValue()" class="btn btn-accent">Search</button>
+                    </div>
+                    <button onclick="traverseList()" class="btn btn-accent">Traverse List</button>
+                    <button onclick="clearList()" class="btn btn-secondary">Clear All</button>
+                </div>
+
+                <div class="operation-group">
+                    <h3>Animation Speed</h3>
+                    <div class="speed-control">
+                        <label for="speedSlider">Speed: <span id="speedValue">1.0x</span></label>
+                        <input type="range" id="speedSlider" min="0.5" max="3" step="0.5" value="1" oninput="updateSpeed(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Area -->
+            <div class="visualization-area">
+                <div class="viz-header">
+                    <h2>Memory Visualization</h2>
+                    <div class="list-info">
+                        <span class="info-badge">Nodes: <strong id="nodeCount">0</strong></span>
+                        <span class="info-badge">Head: <strong id="headAddress">NULL</strong></span>
+                    </div>
+                </div>
+                
+                <div id="linkedListContainer" class="linked-list-container">
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <p>Linked List is empty</p>
+                        <p class="empty-hint">Start by inserting a node</p>
+                    </div>
+                </div>
+
+                <!-- Log Panel -->
+                <div class="log-panel">
+                    <div class="log-header">
+                        <h3>Operation Log</h3>
+                        <button onclick="clearLog()" class="btn-clear-log">Clear</button>
+                    </div>
+                    <div id="logContainer" class="log-container">
+                        <div class="log-entry log-info">
+                            <span class="log-time">00:00:00</span>
+                            <span class="log-message">Simulator initialized. Ready for operations.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="info-card">
+                <h3>📚 About This Simulation</h3>
+                <p>This interactive simulator demonstrates the <strong>internal working</strong> of a Singly Linked List, showing:</p>
+                <ul>
+                    <li>Dynamic memory allocation with simulated addresses</li>
+                    <li>Pointer manipulation during insert/delete operations</li>
+                    <li>Step-by-step traversal with visual feedback</li>
+                    <li>Real-time memory state visualization</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3>⚡ Time Complexity</h3>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Operation</th>
+                        <th>Time Complexity</th>
+                    </tr>
+                    <tr>
+                        <td>Insert at Beginning</td>
+                        <td><code>O(1)</code></td>
+                    </tr>
+                    <tr>
+                        <td>Insert at End</td>
+                        <td><code>O(n)</code></td>
+                    </tr>
+                    <tr>
+                        <td>Insert at Position</td>
+                        <td><code>O(n)</code></td>
+                    </tr>
+                    <tr>
+                        <td>Delete First</td>
+                        <td><code>O(1)</code></td>
+                    </tr>
+                    <tr>
+                        <td>Delete Last</td>
+                        <td><code>O(n)</code></td>
+                    </tr>
+                    <tr>
+                        <td>Search</td>
+                        <td><code>O(n)</code></td>
+                    </tr>
+                    <tr>
+                        <td>Traversal</td>
+                        <td><code>O(n)</code></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

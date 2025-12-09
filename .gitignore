@@ -1,0 +1,23 @@
+# Build artifacts
+*.exe
+*.o
+*.obj
+*.dll
+
+# Logs
+*.log
+run_log.txt
+compile_log.txt
+test_out.txt
+output.txt
+
+# Temporary files
+test.cpp
+test.exe
+input.txt
+compile.bat
+run.bat
+
+# System files
+.DS_Store
+Thumbs.db
